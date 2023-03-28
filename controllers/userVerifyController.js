@@ -15,7 +15,7 @@ const getCode = asyncHandler(async (req, res) => {
   const ALBET = makeid(1);
   let tcc_code = "FT" + Math.floor(Math.random() * 900);
   let imf_code = "FTB" + Math.floor(Math.random() * 9000);
-  let tax_code = ALBET + Math.floor(Math.random() * 9000) + "L";
+  let cot_code = ALBET + Math.floor(Math.random() * 9000) + "L";
   let atc_code = "AT" + Math.floor(Math.random() * 9000);
 
   function makeid(length) {
@@ -59,18 +59,18 @@ const getCode = asyncHandler(async (req, res) => {
       );
 
       res.status(200).json("Updated imf code Successfully");
-    } else if (codeType === "tax_code") {
+    } else if (codeType === "cot_code") {
       await User.findByIdAndUpdate(
         { _id: req.body.id },
         {
           $set: {
-            tax_code,
-            tax_code_price: req.body.codePrice,
+            cot_code,
+            cot_code_price: req.body.codePrice,
           },
         }
       );
 
-      res.status(200).json("Updated tax code Successfully");
+      res.status(200).json("Updated cot code Successfully");
     } else if (codeType === "atc_code") {
       await User.findByIdAndUpdate(
         { _id: req.body.id },
@@ -104,7 +104,7 @@ const restrict = asyncHandler(async (req, res) => {
           $set: {
             tcc_code_need: true,
             imf_code_need: true,
-            tax_code_need: true,
+            cot_code_need: true,
             atc_code_need: true,
             restricted: true,
           },
@@ -120,7 +120,7 @@ const restrict = asyncHandler(async (req, res) => {
           $set: {
             tcc_code_need: true,
             imf_code_need: true,
-            tax_code_need: true,
+            cot_code_need: true,
             restricted: true,
           },
         },
@@ -183,17 +183,17 @@ const updateImf = asyncHandler(async (req, res) => {
   res.status(200).json("imf updated");
 });
 
-const updateTax = asyncHandler(async (req, res) => {
+const updateCot = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
     { _id: req.params.id },
     {
       $set: {
-        tax_code_need: false,
+        cot_code_need: false,
       },
     }
   );
 
-  res.status(200).json("tax updated");
+  res.status(200).json("cot updated");
 });
 
 const updateAtc = asyncHandler(async (req, res) => {
@@ -215,6 +215,6 @@ export {
   getCode,
   updateTcc,
   updateImf,
-  updateTax,
+  updateCot,
   updateAtc,
 };

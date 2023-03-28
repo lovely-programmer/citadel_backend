@@ -13,7 +13,7 @@ import {
   restrict,
   restrictedUsers,
   updateImf,
-  updateTax,
+  updateCot,
   updateTcc,
   updateAtc,
 } from "../controllers/userVerifyController.js";
@@ -29,7 +29,7 @@ userRouter.put("/updateTcc/:id", protect, updateTcc);
 
 userRouter.put("/updateImf/:id", protect, updateImf);
 
-userRouter.put("/updateTax/:id", protect, updateTax);
+userRouter.put("/updateCot/:id", protect, updateCot);
 
 userRouter.put("/updateAtc/:id", protect, updateAtc);
 
