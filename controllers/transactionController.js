@@ -17,6 +17,22 @@ const createTransaction = expressAsyncHandler(async (req, res) => {
   res.status(200).json("Transaction Successful");
 });
 
+const Edit = expressAsyncHandler(async (req, res) => {
+  const id = req.params.id;
+  const { initial_balance, editedBalance, action } = req.body;
+  let balance;
+
+  if (action === "credit") {
+    balance = parseInt(initial_balance) + parseInt(editedBalance);
+  } else if (action === "debit") {
+    balance = parseInt(initial_balance) - parseInt(editedBalance);
+  }
+
+  await User.findByIdAndUpdate({ _id: id }, { $set: { balance } });
+
+  res.status(200).json("Updated balance Successfully");
+});
+
 const getTransactions = expressAsyncHandler(async (req, res) => {
   const transactions = await Transaction.find({ user: req.user.id }).sort({
     _id: -1,
@@ -43,4 +59,4 @@ const updateBalance = expressAsyncHandler(async (req, res) => {
   res.status(200).json("Balance Updated Successfully");
 });
 
-export { createTransaction, getTransactions, updateBalance };
+export { createTransaction, getTransactions, updateBalance, Edit };

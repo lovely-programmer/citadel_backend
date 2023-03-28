@@ -3,6 +3,7 @@ import {
   createTransaction,
   getTransactions,
   updateBalance,
+  Edit,
 } from "../controllers/transactionController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -10,6 +11,7 @@ const transactionRouter = express.Router();
 
 transactionRouter.post("/", protect, createTransaction);
 transactionRouter.get("/", protect, getTransactions);
+transactionRouter.put("/edit/:id", protect, Edit);
 transactionRouter.put("/:id", protect, updateBalance);
 
 export default transactionRouter;
