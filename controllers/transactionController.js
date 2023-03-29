@@ -3,14 +3,14 @@ import Transaction from "../models/transactionModel.js";
 import User from "../models/userModels.js";
 
 const createTransaction = expressAsyncHandler(async (req, res) => {
-  const { amount, remark, transaction_type, name, date } = req.body;
+  const { id, amount, remark, transaction_type, name, date } = req.body;
 
   await Transaction.create({
     amount,
     remark,
     transaction_type,
     name,
-    user: req.user.id,
+    user: id,
     date,
   });
 
@@ -34,7 +34,7 @@ const Edit = expressAsyncHandler(async (req, res) => {
 });
 
 const getTransactions = expressAsyncHandler(async (req, res) => {
-  const transactions = await Transaction.find({ user: req.user.id }).sort({
+  const transactions = await Transaction.find({ user: req.params.id }).sort({
     _id: -1,
   });
 

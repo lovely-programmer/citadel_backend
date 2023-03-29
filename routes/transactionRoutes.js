@@ -10,7 +10,7 @@ import { protect } from "../middleware/authMiddleware.js";
 const transactionRouter = express.Router();
 
 transactionRouter.post("/", protect, createTransaction);
-transactionRouter.get("/", protect, getTransactions);
+transactionRouter.get("/getTransaction/:id", protect, getTransactions);
 transactionRouter.put("/edit/:id", protect, Edit);
 transactionRouter.put("/:id", protect, updateBalance);
 

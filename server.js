@@ -107,24 +107,37 @@ const sendTransactionEmail = ({
       </head>
       <body>
       <!-- partial:index.partial.html -->
-      <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
-        <div style="margin:50px auto;width:70%;padding:20px 0">
-          <div style="border-bottom:1px solid #eee">
-            <a href="" style="font-size:1.4em;color: #2e1a47;text-decoration:none;font-weight:600">Citadel Choice Banking</a>
-          </div>
-          <p>You have successfully Transferred ${amount} from Account Number ${account_number} and ${account_name}  </p>
-          <p style="margin-top:10px;">Current Balance: ${account_balance}</p>
-          <p style="margin-top: 10px"> ${new Date().toLocaleDateString(
-            "en-US"
-          )} </p>
-          <hr style="border:none;border-top:1px solid #eee" />
-          <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
-            <p>Citadel Choice Banking</p>
-            <p>Citadel Choice Bank
-            800 Nicollet Mall
-            Minneapolis, MN 55402</p>
-          </div>
-        </div>
+      <div style="font-family: Helvetica,Arial,sans-serif;">
+      <div margin-right:auto; margin-left:auto;">
+
+      <div style="marginBottom:20px; color:green;">
+        <p>
+          You have successfully Transfered $${amount} from ${account_number} to ${account_name}
+        </p>
+      </div>
+
+      <p style="margin-top:10px;">Current Balance: $${account_balance} </p>
+
+      <div style="margin-bottom:20px; color: red;">
+        <p>
+          International transaction initiated successfully. <br/> It may take few
+          minute, few hours, or a day to credit funds in receivers account. <br /> A
+          detail of this transaction has been recorded in your estatement.
+        </p>
+      </div>
+
+      <p style="color: gray; margin-bottom: 20px;">
+        Citadel Choice Banking
+      </p>
+       <p style="font-weight: bold; color: #2e1a47;">
+        How do i know this is not a fake email?
+      </p>
+      <p style="margin-top:10px;">
+        An email really coming from us will address you by your registered full
+        name or username. It will not ask for <br /> sensitive information like
+        your password, bank account or credit card details
+      </p>
+    </div>
       </div>
       <!-- partial -->
         
@@ -159,6 +172,10 @@ const sendUpdateUser = ({
   account_name,
   account_balance,
   recipient_email,
+  account_number,
+  subject,
+  alert,
+  remark,
 }) => {
   return new Promise((resolve, reject) => {
     var transporter = nodemailer.createTransport({
@@ -172,7 +189,7 @@ const sendUpdateUser = ({
     const mail_configs = {
       from: process.env.SENDER_EMAIL,
       to: recipient_email,
-      subject: `${account_name} Your account have been top up`,
+      subject: subject,
       html: `<!DOCTYPE html>
       <html lang="en" >
       <head>
@@ -182,24 +199,59 @@ const sendUpdateUser = ({
       </head>
       <body>
       <!-- partial:index.partial.html -->
-      <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
-        <div style="margin:50px auto;width:70%;padding:20px 0">
-          <div style="border-bottom:1px solid #eee">
-            <a href="" style="font-size:1.4em;color: #2e1a47;text-decoration:none;font-weight:600">Citadel Choice Banking</a>
-          </div>
-          <p>You account have been top up with ${amount}</p>
-          <p style="margin-top:10px;">Current Balance: ${account_balance}</p>
-          <p style="margin-top: 10px"> ${new Date().toLocaleDateString(
-            "en-US"
-          )} </p>
-          <hr style="border:none;border-top:1px solid #eee" />
-          <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
-            <p>Citadel Choice Banking</p>
-            <p>Citadel Choice Bank
-            800 Nicollet Mall
-            Minneapolis, MN 55402</p>
-          </div>
-        </div>
+      <div style="font-family: Helvetica,Arial,sans-serif;">
+      <div
+      style="margin-right:auto; margin-left:auto; width:70%;">
+
+      <p style="font-weight:bold"> Dear ${account_name}</p>
+
+      <p style="margin:10px 0px">
+        This is a summary that has occurred on your account below
+      </p>
+
+      <div style="width: 70%; border: 1px solid bisque; margin-bottom: 30px;">
+        <table>
+          <tbody>
+            <tr>
+              <td style="padding:5px;"> Credit/Debit </td>
+              <td style="padding-left:90px;"> ${alert} </td>
+            </tr>
+            <tr>
+            <td style="padding:5px;"> Account Number</td>
+            <td style="padding-left:90px;"> ${account_number} </td>
+            </tr>
+            <tr>
+            <td style="padding:5px;"> Date/Time </td>
+            <td style="padding-left:90px;"> 19/03/2023 </td>
+            </tr>
+            <tr>
+            <td style="padding:5px;"> Description </td>
+            <td style="padding-left:90px;"> ${remark} </td>
+            </tr>
+            <tr>
+            <td style="padding:5px;"> Amount </td>
+            <td style="padding-left:90px;"> ${`${amount}`} </td>
+            </tr>
+            <tr>
+            <td style="padding:5px;"> Available Balance </td>
+            <td style="padding-left:90px;"> ${`${account_balance}`} </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style= "color:gray; margin-bottom:20px;">
+        Citadel Choice Banking
+      </p>
+      <p style="font-weight: bold; color: #2e1a47;">
+        How do i know this is not a fake email?
+      </p>
+      <p style="margin-top:10px;">
+        An email really coming from us will address you by your registered full
+        name or username. It will not ask for <br /> sensitive information like
+        your password, bank account or credit card details
+      </p>
+    </div>
       </div>
       <!-- partial -->
         
@@ -223,7 +275,6 @@ app.get("/", (req, res) => {
 });
 
 app.post("/send_recovery_email/update", (req, res) => {
-  console.log("Transaction Email");
   sendUpdateUser(req.body)
     .then((response) => res.send(response.message))
     .catch((error) => res.status(500).send(error.message));
