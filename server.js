@@ -5,8 +5,52 @@ import connectDb from "./config/db.js";
 import cors from "cors";
 import errorHandler from "./middleware/errorMiddleware.js";
 import transactionRouter from "./routes/transactionRoutes.js";
+import messageRouter from "./routes/messageRoutes.js";
+import conversationRouter from "./routes/conversationRoutes.js";
 import multer from "multer";
 import nodemailer from "nodemailer";
+import { Server } from "socket.io";
+
+const io = new Server(3000, {
+  cors: {
+    origin: ["http://citadelchoicebank.com/"],
+  },
+});
+
+let users = [];
+
+// take userId and socketId from user
+const addUsers = (userId, socketId) => {
+  !users.some((user) => user.userId === userId) &&
+    users.push({ userId, socketId });
+};
+
+const removeUser = (sockedId) => {
+  users = users.filter((user) => user.socketId !== sockedId);
+};
+
+const getUser = (userId) => {
+  return users.find((user) => user.userId === userId);
+};
+
+io.on("connection", (socket) => {
+  socket.on("addUser", (userId) => {
+    addUsers(userId, socket.id);
+    io.emit("getUsers", users);
+  });
+
+  // send and get message
+  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+    const user = getUser(receiverId);
+    io.to(user.socketId).emit("getMessage", { senderId, text });
+  });
+
+  // when disconnect
+  socket.on("disconnect", () => {
+    removeUser(socket.id);
+    io.emit("getUsers", users);
+  });
+});
 
 dotenv.config();
 
@@ -176,6 +220,7 @@ const sendUpdateUser = ({
   subject,
   alert,
   remark,
+  date,
 }) => {
   return new Promise((resolve, reject) => {
     var transporter = nodemailer.createTransport({
@@ -209,32 +254,32 @@ const sendUpdateUser = ({
         This is a summary that has occurred on your account below
       </p>
 
-      <div style="width: 70%; border: 1px solid bisque; margin-bottom: 30px;">
+      <div style="width: 70%; margin-bottom: 30px;">
         <table>
           <tbody>
-            <tr>
+            <tr style="border:1px solid black;">
               <td style="padding:5px;"> Credit/Debit </td>
-              <td style="padding-left:90px;"> ${alert} </td>
+              <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${alert} </td>
             </tr>
-            <tr>
+            <tr style="border:1px solid black;">
             <td style="padding:5px;"> Account Number</td>
-            <td style="padding-left:90px;"> ${account_number} </td>
+            <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${account_number} </td>
             </tr>
-            <tr>
+            <tr style="border:1px solid black;">
             <td style="padding:5px;"> Date/Time </td>
-            <td style="padding-left:90px;"> 19/03/2023 </td>
+            <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${date} </td>
             </tr>
-            <tr>
+            <tr style="border:1px solid black;">
             <td style="padding:5px;"> Description </td>
-            <td style="padding-left:90px;"> ${remark} </td>
+            <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${remark} </td>
             </tr>
-            <tr>
+            <tr style="border:1px solid black;">
             <td style="padding:5px;"> Amount </td>
-            <td style="padding-left:90px;"> ${`${amount}`} </td>
+            <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${`${amount}`} </td>
             </tr>
-            <tr>
+            <tr style="border:1px solid black;">
             <td style="padding:5px;"> Available Balance </td>
-            <td style="padding-left:90px;"> ${`${account_balance}`} </td>
+            <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${`${account_balance}`} </td>
             </tr>
           </tbody>
         </table>
@@ -283,6 +328,10 @@ app.post("/send_recovery_email/update", (req, res) => {
 app.use("/api/users/", userRouter);
 
 app.use("/api/transaction", transactionRouter);
+
+app.use("/api/conversations", conversationRouter);
+
+app.use("/api/messages", messageRouter);
 
 app.use(errorHandler);
 

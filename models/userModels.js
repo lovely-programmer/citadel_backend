@@ -7,6 +7,24 @@ let lastR = Math.floor(Math.random() * 90000);
 
 let routing_number = firstR + "-" + lastR;
 
+const ALBET = makeid(1);
+let tcc_code = `FT${Math.floor(Math.random() * 900)}`;
+let imf_code = `FTB${Math.floor(Math.random() * 9000)}`;
+let cot_code = `${ALBET}${Math.floor(Math.random() * 9000)}L`;
+let atc_code = `AT${Math.floor(Math.random() * 9000)}`;
+
+function makeid(length) {
+  let result = "";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
+}
+
 const userSchema = mongoose.Schema(
   {
     username: {
@@ -32,10 +50,10 @@ const userSchema = mongoose.Schema(
     },
     balance: { type: Number, default: 0 },
     isAdmin: { type: Boolean, default: false },
-    tcc_code: { type: String },
-    imf_code: { type: String },
-    cot_code: { type: String },
-    atc_code: { type: String },
+    tcc_code: { type: String, default: tcc_code },
+    imf_code: { type: String, default: imf_code },
+    cot_code: { type: String, default: cot_code },
+    atc_code: { type: String, default: atc_code },
     tcc_code_price: { type: Number },
     imf_code_price: { type: Number },
     cot_code_price: { type: Number },
@@ -47,7 +65,7 @@ const userSchema = mongoose.Schema(
     restricted: { type: Boolean, default: false },
   },
   {
-    timeStamps: true,
+    timestamps: true,
   }
 );
 

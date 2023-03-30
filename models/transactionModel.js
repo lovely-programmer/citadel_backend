@@ -10,7 +10,7 @@ const transactionSchema = mongoose.Schema(
     date: { type: String, required: true },
   },
   {
-    timeStamps: true,
+    timestamps: true,
   }
 );
 

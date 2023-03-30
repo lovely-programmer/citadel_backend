@@ -86,6 +86,15 @@ const getMe = asyncHandler(async (req, res) => {
   res.status(200).json(req.user);
 });
 
+// get a user
+const getUser = asyncHandler(async (req, res) => {
+  const userId = req.query.userId;
+  const user = await User.findById(userId);
+  const { password, updatedAt, ...other } = user._doc;
+
+  res.status(200).json(other);
+});
+
 const getAllUsers = asyncHandler(async (req, res) => {
   const isAdmin = req.user.isAdmin;
   const allUser = await User.find();
@@ -154,4 +163,5 @@ export {
   editUser,
   deleteUser,
   updateProfilePicture,
+  getUser,
 };

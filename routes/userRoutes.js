@@ -7,6 +7,7 @@ import {
   editUser,
   deleteUser,
   updateProfilePicture,
+  getUser,
 } from "../controllers/userController.js";
 import {
   getCode,
@@ -41,6 +42,7 @@ userRouter.post("/", registerUser);
 userRouter.post("/login", loginUser);
 userRouter.get("/allusers", protect, getAllUsers);
 userRouter.get("/", protect, getMe);
+userRouter.get("/getOne", getUser);
 userRouter.delete("/user/:id", protect, deleteUser);
 
 userRouter.get("/restrictedUser", protect, restrictedUsers);
