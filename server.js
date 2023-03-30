@@ -11,9 +11,11 @@ import multer from "multer";
 import nodemailer from "nodemailer";
 import { Server } from "socket.io";
 
-const io = new Server(3000, {
+// https://citadelchoicebank.com
+
+const io = new Server("3000", {
   cors: {
-    origin: ["https://citadelchoicebank.com/"],
+    origin: ["https://citadelchoicebank.com"],
   },
 });
 
