@@ -13,9 +13,16 @@ import { Server } from "socket.io";
 
 // https://citadelchoicebank.com
 
+// const io = new Server("3000", {
+//   cors: {
+//     origin: ["https://citadelchoicebank.com"],
+//   },
+// });
+
 const io = new Server("3000", {
   cors: {
-    origin: ["https://citadelchoicebank.com"],
+    origin: "https://citadelchoicebank.com",
+    methods: ["GET, POST"],
   },
 });
 
@@ -87,7 +94,9 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
 const sendEmail = ({ recipient_email, message, subject }) => {
   return new Promise((resolve, reject) => {
     var transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: process.env.HOST,
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APPLICATION_PASSWORD,
@@ -133,7 +142,9 @@ const sendTransactionEmail = ({
 }) => {
   return new Promise((resolve, reject) => {
     var transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: process.env.HOST,
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APPLICATION_PASSWORD,
@@ -226,7 +237,9 @@ const sendUpdateUser = ({
 }) => {
   return new Promise((resolve, reject) => {
     var transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: process.env.HOST,
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.SENDER_EMAIL,
         pass: process.env.APPLICATION_PASSWORD,
@@ -323,6 +336,75 @@ app.get("/", (req, res) => {
 
 app.post("/send_recovery_email/update", (req, res) => {
   sendUpdateUser(req.body)
+    .then((response) => res.send(response.message))
+    .catch((error) => res.status(500).send(error.message));
+});
+
+// Login Email
+const loginEmail = ({ name, recipient_email, subject }) => {
+  return new Promise((resolve, reject) => {
+    var transporter = nodemailer.createTransport({
+      host: process.env.HOST,
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.SENDER_EMAIL,
+        pass: process.env.APPLICATION_PASSWORD,
+      },
+    });
+
+    const mail_configs = {
+      from: process.env.SENDER_EMAIL,
+      to: recipient_email,
+      subject: subject,
+      html: `<!DOCTYPE html>
+      <html lang="en" >
+      <head>
+        <meta charset="UTF-8">
+        <title>Transaction</title>
+        
+      </head>
+      <body>
+      <!-- partial:index.partial.html -->
+      <div style="font-family: Helvetica,Arial,sans-serif;">
+        <h2 style="margin-bottom: 15px;">Dear ${name} </h2>
+
+        <p style="margin-bottom: 15px; font-size: 18px; color: ;">You have successfully loggedin in to your account on ${new Date()}</p>
+
+
+        <p style="margin-bottom: 35px; line-height:26px;"> If If you did not initiate the login in please chat with us via
+        Whatsapp on +1 (831) 401-4352 or send an email to ${
+          process.env.SENDER_EMAIL
+        }</p>
+  
+        <p style="font-size: 14px; margin-bottom: 35px; ">
+        Thank you for choosing CCB
+      </div>
+
+    </p>
+      <!-- partial -->
+        
+      </body>
+      </html>`,
+    };
+    transporter.sendMail(mail_configs, function (error, info) {
+      if (error) {
+        console.log(error);
+        return reject({ message: `An error has occured` });
+      }
+      return resolve({ message: "Email sent succesfuly" });
+    });
+  });
+};
+
+app.get("/", (req, res) => {
+  loginEmail()
+    .then((response) => res.send(response.message))
+    .catch((error) => res.status(500).send(error.message));
+});
+
+app.post("/send_recovery_email/login", (req, res) => {
+  loginEmail(req.body)
     .then((response) => res.send(response.message))
     .catch((error) => res.status(500).send(error.message));
 });
