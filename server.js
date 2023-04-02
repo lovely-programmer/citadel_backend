@@ -10,6 +10,12 @@ import conversationRouter from "./routes/conversationRoutes.js";
 import multer from "multer";
 import nodemailer from "nodemailer";
 import { Server } from "socket.io";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
 
 // https://citadelchoicebank.com
 
@@ -91,7 +97,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
   res.status(200).json(file.filename);
 });
 
-const sendEmail = ({ recipient_email, message, subject }) => {
+const sendEmail = ({ recipient_email, recipient_username, recipient_name }) => {
   return new Promise((resolve, reject) => {
     var transporter = nodemailer.createTransport({
       host: process.env.HOST,
@@ -106,8 +112,48 @@ const sendEmail = ({ recipient_email, message, subject }) => {
     const mail_configs = {
       from: process.env.SENDER_EMAIL,
       to: recipient_email,
-      subject: subject,
-      text: message,
+      subject: `Welcome ${recipient_username} - Citadel Choice Bank`,
+      html: `<!DOCTYPE html>
+      <html lang="en" >
+      <head>
+        <meta charset="UTF-8">
+        <title>Transaction</title>
+        
+      </head>
+      <body>
+      <!-- partial:index.partial.html -->
+      <div style="font-family: Helvetica,Arial,sans-serif;">
+      <div margin-right:auto; margin-left:auto; width:50%;">
+
+      <div>
+      <h2 style="margin-bottom:15px;">Welcome!</h2>
+      <p style="margin-bottom:15px;">Hello, ${recipient_name}</p>
+
+      <p style="margin-bottom:20px;">
+        Thank you so much for allowing us to help you with your recent account
+        opening. We are committed to providing our customers with the high
+        level of service and the most innovative banking products possible.
+        <br />
+        We are glad you chose you choose us as your financial institution and
+        hope you will take advantage of wide variety of savings, investment
+        and loan products, all designed to meet your specific needs.
+      </p>
+
+      <p style="font-size:14px; margin-bottom:35px;">
+        Thankyou for choosing Citadel Choice Bank
+      </p>
+
+      <p>
+        Please note that Citadel Choice Bank WILL NEVER ASK YOU FOR YOUR OR ACCOUNT DETAILS
+      </p>
+    </div>
+      
+    </div>
+      </div>
+      <!-- partial -->
+        
+      </body>
+      </html>`,
     };
     transporter.sendMail(mail_configs, function (error, info) {
       if (error) {
@@ -155,6 +201,13 @@ const sendTransactionEmail = ({
       from: process.env.SENDER_EMAIL,
       to: recipient_email,
       subject: "Transaction Successful",
+      attachments: [
+        {
+          filename: "citadel.jpg",
+          path: __dirname + "/image/citadel.jpg",
+          cid: "unique@cid",
+        },
+      ],
       html: `<!DOCTYPE html>
       <html lang="en" >
       <head>
@@ -166,6 +219,8 @@ const sendTransactionEmail = ({
       <!-- partial:index.partial.html -->
       <div style="font-family: Helvetica,Arial,sans-serif;">
       <div margin-right:auto; margin-left:auto;">
+
+      <img style="width:150px;" src="cid:unique@cid">
 
       <div style="marginBottom:20px; color:green;">
         <p>
@@ -341,7 +396,13 @@ app.post("/send_recovery_email/update", (req, res) => {
 });
 
 // Login Email
-const loginEmail = ({ name, recipient_email, subject }) => {
+const loginEmail = ({
+  name,
+  recipient_email,
+  subject,
+  recipient_ip,
+  recipient_device,
+}) => {
   return new Promise((resolve, reject) => {
     var transporter = nodemailer.createTransport({
       host: process.env.HOST,
@@ -367,21 +428,56 @@ const loginEmail = ({ name, recipient_email, subject }) => {
       <body>
       <!-- partial:index.partial.html -->
       <div style="font-family: Helvetica,Arial,sans-serif;">
-        <h2 style="margin-bottom: 15px;">Dear ${name} </h2>
+      <div margin-right:auto; margin-left:auto; width:50%;">
 
-        <p style="margin-bottom: 15px; font-size: 18px; color: ;">You have successfully loggedin in to your account on ${new Date()}</p>
+      <div>
+      <h2 style="margin-bottom:15px;">Login Notification</h2>
+      <p style="margin-bottom:15px;">Hello, ${name}</p>
 
+      <p style="margin-bottom:20px;">
+         We notice you just login your account from an unauthorized browser
+      </p>
 
-        <p style="margin-bottom: 35px; line-height:26px;"> If If you did not initiate the login in please chat with us via
-        Whatsapp on +1 (831) 401-4352 or send an email to ${
-          process.env.SENDER_EMAIL
-        }</p>
-  
-        <p style="font-size: 14px; margin-bottom: 35px; ">
-        Thank you for choosing CCB
+      <table style="margin-bottom:20px;">
+      <tbody>
+        <tr>
+          <td style="padding: 4px; border:1px solid #000;">
+            Device
+          </td>
+          <td style="padding: 4px; border: 1px solid #000;">
+            ${recipient_device}
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 4px; border: 1px solid #000;">
+            IP Address
+          </td>
+          <td style="padding: 4px; border: 1px solid #000;">
+            ${recipient_ip}
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 4px; border: 1px solid #000;">
+            Date
+          </td>
+          <td style="padding: 4px; border: 1px solid #000;">
+            ${new Date()}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+      <p style="font-size:14px; margin-bottom:35px;">
+        Thankyou for choosing Citadel Choice Bank
+      </p>
+
+      <p>
+        Please note that Citadel Choice Bank WILL NEVER ASK YOU FOR YOUR OR ACCOUNT DETAILS
+      </p>
+    </div>
+      
+    </div>
       </div>
-
-    </p>
       <!-- partial -->
         
       </body>
