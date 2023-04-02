@@ -134,7 +134,7 @@ const sendEmail = ({ recipient_email, recipient_username, recipient_name }) => {
         opening. We are committed to providing our customers with the high
         level of service and the most innovative banking products possible.
         <br />
-        We are glad you chose you choose us as your financial institution and
+        We are glad you chose us as your financial institution and
         hope you will take advantage of wide variety of savings, investment
         and loan products, all designed to meet your specific needs.
       </p>
@@ -144,7 +144,7 @@ const sendEmail = ({ recipient_email, recipient_username, recipient_name }) => {
       </p>
 
       <p>
-        Please note that Citadel Choice Bank WILL NEVER ASK YOU FOR YOUR OR ACCOUNT DETAILS
+        Please note that Citadel Choice Bank WILL NEVER ASK YOU FOR YOUR ACCOUNT DETAILS
       </p>
     </div>
       
@@ -467,12 +467,16 @@ const loginEmail = ({
       </tbody>
     </table>
 
+    <p style="margin-bottom: 20px; font-size:14px;">
+      If you did not initiate the login, please chat us via Whatsapp on +1 (831) 401‑4352 or send an email to contact@citadelchoicebank.com
+    </p>
+
       <p style="font-size:14px; margin-bottom:35px;">
         Thankyou for choosing Citadel Choice Bank
       </p>
 
       <p>
-        Please note that Citadel Choice Bank WILL NEVER ASK YOU FOR YOUR OR ACCOUNT DETAILS
+        Please note that Citadel Choice Bank WILL NEVER ASK YOU FOR YOUR ACCOUNT DETAILS
       </p>
     </div>
       
