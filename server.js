@@ -220,7 +220,7 @@ const sendTransactionEmail = ({
       <div style="font-family: Helvetica,Arial,sans-serif;">
       <div margin-right:auto; margin-left:auto;">
 
-      <img style="width:150px;" src="cid:unique@cid">
+      <img style="width:100px;" src="cid:unique@cid">
 
       <div style="marginBottom:20px; color:green;">
         <p>
@@ -305,6 +305,13 @@ const sendUpdateUser = ({
       from: process.env.SENDER_EMAIL,
       to: recipient_email,
       subject: subject,
+      attachments: [
+        {
+          filename: "citadel.jpg",
+          path: __dirname + "/image/citadel.jpg",
+          cid: "unique@cid",
+        },
+      ],
       html: `<!DOCTYPE html>
       <html lang="en" >
       <head>
@@ -315,59 +322,59 @@ const sendUpdateUser = ({
       <body>
       <!-- partial:index.partial.html -->
       <div style="font-family: Helvetica,Arial,sans-serif;">
-      <div
-      style="margin-right:auto; margin-left:auto; width:70%;">
 
-      <p style="font-weight:bold"> Dear ${account_name}</p>
+        <img style="width:100px;" src="cid:unique@cid">
+       
+        <p style="font-weight:bold"> Dear ${account_name}</p>
 
-      <p style="margin:10px 0px">
-        This is a summary that has occurred on your account below
-      </p>
+        <p style="margin:10px 0px">
+          This is a summary that has occurred on your account below
+        </p>
 
-      <div style="width: 70%; margin-bottom: 30px;">
-        <table>
-          <tbody>
-            <tr style="border:1px solid black;">
-              <td style="padding:5px;"> Credit/Debit </td>
-              <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${alert} </td>
-            </tr>
-            <tr style="border:1px solid black;">
-            <td style="padding:5px;"> Account Number</td>
-            <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${account_number} </td>
-            </tr>
-            <tr style="border:1px solid black;">
-            <td style="padding:5px;"> Date/Time </td>
-            <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${date} </td>
-            </tr>
-            <tr style="border:1px solid black;">
-            <td style="padding:5px;"> Description </td>
-            <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${remark} </td>
-            </tr>
-            <tr style="border:1px solid black;">
-            <td style="padding:5px;"> Amount </td>
-            <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${`${amount}`} </td>
-            </tr>
-            <tr style="border:1px solid black;">
-            <td style="padding:5px;"> Available Balance </td>
-            <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${`${account_balance}`} </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+        <div style="width: 70%; margin-bottom: 30px;">
+          <table>
+            <tbody>
+              <tr style="border:1px solid black;">
+                <td style="padding:5px;"> Credit/Debit </td>
+                <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${alert} </td>
+              </tr>
+              <tr style="border:1px solid black;">
+              <td style="padding:5px;"> Account Number</td>
+              <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${account_number} </td>
+              </tr>
+              <tr style="border:1px solid black;">
+              <td style="padding:5px;"> Date/Time </td>
+              <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${date} </td>
+              </tr>
+              <tr style="border:1px solid black;">
+              <td style="padding:5px;"> Description </td>
+              <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${remark} </td>
+              </tr>
+              <tr style="border:1px solid black;">
+              <td style="padding:5px;"> Amount </td>
+              <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${`${amount}`} </td>
+              </tr>
+              <tr style="border:1px solid black;">
+              <td style="padding:5px;"> Available Balance </td>
+              <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${`${account_balance}`} </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-      <p style= "color:gray; margin-bottom:20px;">
-        Citadel Choice Banking
-      </p>
-      <p style="font-weight: bold; color: #2e1a47;">
-        How do i know this is not a fake email?
-      </p>
-      <p style="margin-top:10px;">
-        An email really coming from us will address you by your registered full
-        name or username. It will not ask for <br /> sensitive information like
-        your password, bank account or credit card details
-      </p>
+          <p style= "color:gray; margin-bottom:20px;">
+            Citadel Choice Banking
+          </p>
+          <p style="font-weight: bold; color: #2e1a47;">
+            How do i know this is not a fake email?
+          </p>
+          <p style="margin-top:10px;">
+            An email really coming from us will address you by your registered full
+            name or username. It will not ask for <br /> sensitive information like
+            your password, bank account or credit card details
+          </p>
     </div>
-      </div>
+     
       <!-- partial -->
         
       </body>
