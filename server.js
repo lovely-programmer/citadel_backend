@@ -25,47 +25,47 @@ const __dirname = path.dirname(__filename);
 //   },
 // });
 
-const io = new Server("3000", {
-  cors: {
-    origin: "https://citadelchoicebank.com",
-    methods: ["GET, POST"],
-  },
-});
+// const io = new Server("3000", {
+//   cors: {
+//     origin: "https://citadelchoicebank.com",
+//     methods: ["GET, POST"],
+//   },
+// });
 
-let users = [];
+// let users = [];
 
-// take userId and socketId from user
-const addUsers = (userId, socketId) => {
-  !users.some((user) => user.userId === userId) &&
-    users.push({ userId, socketId });
-};
+// // take userId and socketId from user
+// const addUsers = (userId, socketId) => {
+// !users.some((user) => user.userId === userId) &&
+//     users.push({ userId, socketId });
+// };
 
-const removeUser = (sockedId) => {
-  users = users.filter((user) => user.socketId !== sockedId);
-};
+// const removeUser = (sockedId) => {
+//   users = users.filter((user) => user.socketId !== sockedId);
+// };
 
-const getUser = (userId) => {
-  return users.find((user) => user.userId === userId);
-};
+// const getUser = (userId) => {
+//   return users.find((user) => user.userId === userId);
+// };
 
-io.on("connection", (socket) => {
-  socket.on("addUser", (userId) => {
-    addUsers(userId, socket.id);
-    io.emit("getUsers", users);
-  });
+// io.on("connection", (socket) => {
+//   socket.on("addUser", (userId) => {
+//     addUsers(userId, socket.id);
+//     io.emit("getUsers", users);
+//   });
 
-  // send and get message
-  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
-    const user = getUser(receiverId);
-    io.to(user.socketId).emit("getMessage", { senderId, text });
-  });
+//   // send and get message
+//   socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+//     const user = getUser(receiverId);
+//     io.to(user.socketId).emit("getMessage", { senderId, text });
+//   });
 
-  // when disconnect
-  socket.on("disconnect", () => {
-    removeUser(socket.id);
-    io.emit("getUsers", users);
-  });
-});
+//   // when disconnect
+//   socket.on("disconnect", () => {
+//     removeUser(socket.id);
+//     io.emit("getUsers", users);
+//   });
+// });
 
 dotenv.config();
 
@@ -73,13 +73,13 @@ connectDb();
 
 const PORT = process.env.PORT || 5000;
 
+app.use(cors());
+
 const app = express();
 
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: false }));
-
-app.use(cors());
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
