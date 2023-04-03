@@ -340,7 +340,7 @@ const sendUpdateUser = ({
                 <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${alert} </td>
               </tr>
               <tr style="border:1px solid black;">
-              <td style="padding:5px;"> Name</td>
+              <td style="padding:5px;">Sender Name</td>
               <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${sender_name} </td>
               </tr>
               <tr style="border:1px solid black;">
@@ -469,7 +469,7 @@ const loginEmail = ({
             Date
           </td>
           <td style="padding: 4px; border: 1px solid #b5a4a4;">
-            ${new Date()}
+            ${new Date().toLocaleDateString("en-US")}
           </td>
         </tr>
       </tbody>
