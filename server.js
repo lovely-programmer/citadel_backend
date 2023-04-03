@@ -247,7 +247,7 @@ const sendTransactionEmail = ({
       </p>
       <p style="margin-top:10px;">
         An email really coming from us will address you by your registered full
-        name or username. It will not ask for <br /> sensitive information like
+        name or username. It will not ask for sensitive information like
         your password, bank account or credit card details
       </p>
     </div>
@@ -285,7 +285,7 @@ const sendUpdateUser = ({
   account_name,
   account_balance,
   recipient_email,
-  account_number,
+  sender_name,
   subject,
   alert,
   remark,
@@ -340,8 +340,8 @@ const sendUpdateUser = ({
                 <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${alert} </td>
               </tr>
               <tr style="border:1px solid black;">
-              <td style="padding:5px;"> Account Number</td>
-              <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${account_number} </td>
+              <td style="padding:5px;"> Name</td>
+              <td style="padding-left:90px; padding-top: 5px; padding-bottom: 5px;"> ${sender_name} </td>
               </tr>
               <tr style="border:1px solid black;">
               <td style="padding:5px;"> Date/Time </td>
@@ -371,7 +371,7 @@ const sendUpdateUser = ({
           </p>
           <p style="margin-top:10px;">
             An email really coming from us will address you by your registered full
-            name or username. It will not ask for <br /> sensitive information like
+            name or username. It will not ask for sensitive information like
             your password, bank account or credit card details
           </p>
     </div>
