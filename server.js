@@ -12,6 +12,7 @@ import nodemailer from "nodemailer";
 import { Server } from "socket.io";
 import path from "path";
 import { fileURLToPath } from "url";
+import bodyParser from "body-parser";
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -79,7 +80,9 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json({ limit: "50mb" }));
+
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
