@@ -144,7 +144,7 @@ const sendEmail = ({ recipient_email, recipient_username, recipient_name }) => {
       </p>
 
       <p>
-        Please note that Citadel Choice Bank WILL NEVER ASK YOU FOR YOUR ACCOUNT DETAILS
+      Please note that Citadel Choice Bank WILL NEVER ASK YOU FOR YOUR LOGIN PASSWORD, TRANSACTION PASSWORD, ACCOUNT DETAILS 
       </p>
     </div>
       
@@ -441,26 +441,26 @@ const loginEmail = ({
       <table style="margin-bottom:20px;">
       <tbody>
         <tr>
-          <td style="padding: 4px; border:1px solid #000;">
+          <td style="padding: 4px; border:1px solid #b5a4a4;">
             Device
           </td>
-          <td style="padding: 4px; border: 1px solid #000;">
+          <td style="padding: 4px; border: 1px solid #b5a4a4;">
             ${recipient_device}
           </td>
         </tr>
         <tr>
-          <td style="padding: 4px; border: 1px solid #000;">
+          <td style="padding: 4px; border: 1px solid #b5a4a4;">
             IP Address
           </td>
-          <td style="padding: 4px; border: 1px solid #000;">
+          <td style="padding: 4px; border: 1px solid #b5a4a4;">
             ${recipient_ip}
           </td>
         </tr>
         <tr>
-          <td style="padding: 4px; border: 1px solid #000;">
+          <td style="padding: 4px; border: 1px solid #b5a4a4;">
             Date
           </td>
-          <td style="padding: 4px; border: 1px solid #000;">
+          <td style="padding: 4px; border: 1px solid #b5a4a4;">
             ${new Date()}
           </td>
         </tr>
@@ -476,7 +476,7 @@ const loginEmail = ({
       </p>
 
       <p>
-        Please note that Citadel Choice Bank WILL NEVER ASK YOU FOR YOUR ACCOUNT DETAILS
+        Please note that Citadel Choice Bank WILL NEVER ASK YOU FOR YOUR LOGIN PASSWORD, TRANSACTION PASSWORD, ACCOUNT DETAILS 
       </p>
     </div>
       
