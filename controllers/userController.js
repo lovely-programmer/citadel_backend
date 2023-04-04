@@ -14,17 +14,23 @@ const registerUser = asyncHandler(async (req, res) => {
     account_type,
     balance,
     profilePicture,
+    country,
+    state,
+    city,
+    zip_code,
+    occupation,
+    social_security,
   } = req.body;
 
   // Check If user Exist
-  const userExists = await User.findOne({ email });
+  // const userExists = await User.findOne({ email });
 
   const userNameExist = await User.findOne({ username });
 
-  if (userExists) {
-    res.status(400);
-    throw new Error("User already exist");
-  }
+  // if (userExists) {
+  //   res.status(400);
+  //   throw new Error("User already exist");
+  // }
 
   if (userNameExist) {
     res.status(400);
@@ -46,6 +52,12 @@ const registerUser = asyncHandler(async (req, res) => {
     profilePicture,
     account_type,
     balance,
+    country,
+    state,
+    city,
+    zip_code,
+    occupation,
+    social_security,
   });
 
   if (user) {

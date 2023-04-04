@@ -42,6 +42,18 @@ const userSchema = mongoose.Schema(
     phoneNumber: { type: String, required: [true, "Please add a phoneNumber"] },
     address: { type: String, required: [true, "Please add a valid address"] },
     profilePicture: { type: String },
+    country: { type: String, required: [true, "Please enter your country"] },
+    state: { type: String, required: [true, "Please enter your state"] },
+    city: { type: String, required: [true, "Please enter your city"] },
+    zip_code: { type: String, required: [true, "Please enter your zip code"] },
+    occupation: {
+      type: String,
+      required: [true, "Please enter your occupation"],
+    },
+    social_security: {
+      type: String,
+      required: [true, "Please enter your social security number"],
+    },
     account_number: { type: Number, default: account_number },
     routing_number: { type: String, default: routing_number },
     account_type: {
