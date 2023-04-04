@@ -54,6 +54,10 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Please enter your social security number"],
     },
+    date_of_birth: {
+      type: String,
+      required: [true, "Please enter your date of birth"],
+    },
     account_number: { type: Number, default: account_number },
     routing_number: { type: String, default: routing_number },
     account_type: {

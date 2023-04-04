@@ -20,6 +20,7 @@ const registerUser = asyncHandler(async (req, res) => {
     zip_code,
     occupation,
     social_security,
+    date_of_birth,
   } = req.body;
 
   // Check If user Exist
@@ -58,6 +59,7 @@ const registerUser = asyncHandler(async (req, res) => {
     zip_code,
     occupation,
     social_security,
+    date_of_birth,
   });
 
   if (user) {
