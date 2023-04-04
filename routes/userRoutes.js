@@ -12,6 +12,7 @@ import {
 import {
   getCode,
   restrict,
+  unRestrict,
   restrictedUsers,
   updateImf,
   updateCot,
@@ -25,6 +26,8 @@ const userRouter = express.Router();
 userRouter.put("/getCode/:codeType", protect, getCode);
 
 userRouter.put("/restrict/:id", protect, restrict);
+
+userRouter.put("/unrestrict/:id", protect, unRestrict);
 
 userRouter.put("/updateTcc/:id", protect, updateTcc);
 

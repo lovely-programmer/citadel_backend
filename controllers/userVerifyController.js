@@ -91,69 +91,37 @@ const restrict = asyncHandler(async (req, res) => {
   const isAdmin = req.user.isAdmin;
 
   const id = req.params.id;
-
-  const numberOfRestrictions = req.body.numberOfRestrictions;
-
-  const data = parseInt(numberOfRestrictions);
-
   if (isAdmin) {
-    if (data === 4) {
-      await User.findByIdAndUpdate(
-        { _id: id },
-        {
-          $set: {
-            tcc_code_need: true,
-            imf_code_need: true,
-            cot_code_need: true,
-            atc_code_need: true,
-            restricted: true,
-          },
+    await User.findByIdAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          restricted: true,
         },
-        { new: true, runValidators: true }
-      );
+      },
+      { new: true, runValidators: true }
+    );
 
-      res.status(200).json("Updated Successfully");
-    } else if (data == 3) {
-      await User.findByIdAndUpdate(
-        { _id: id },
-        {
-          $set: {
-            tcc_code_need: true,
-            imf_code_need: true,
-            cot_code_need: true,
-            restricted: true,
-          },
-        },
-        { new: true, runValidators: true }
-      );
+    res.status(200).json("User Restricted");
+  }
+});
 
-      res.status(200).json("Updated Successfully");
-    } else if (data == 2) {
-      await User.findByIdAndUpdate(
-        { _id: id },
-        {
-          $set: {
-            tcc_code_need: true,
-            tax_code_need: true,
-            restricted: true,
-          },
+const unRestrict = asyncHandler(async (req, res) => {
+  const isAdmin = req.user.isAdmin;
+
+  const id = req.params.id;
+  if (isAdmin) {
+    await User.findByIdAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          restricted: false,
         },
-        { new: true, runValidators: true }
-      );
-      res.status(200).json("Updated Successfully");
-    } else if (data == 1) {
-      await User.findByIdAndUpdate(
-        { _id: id },
-        {
-          $set: {
-            tcc_code_need: true,
-            restricted: true,
-          },
-        },
-        { new: true, runValidators: true }
-      );
-      res.status(200).json("Updated Successfully");
-    }
+      },
+      { new: true, runValidators: true }
+    );
+
+    res.status(200).json("User Unrestricted");
   }
 });
 
@@ -212,6 +180,7 @@ const updateAtc = asyncHandler(async (req, res) => {
 export {
   restrictedUsers,
   restrict,
+  unRestrict,
   getCode,
   updateTcc,
   updateImf,

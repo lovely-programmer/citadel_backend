@@ -88,6 +88,7 @@ const loginUser = asyncHandler(async (req, res) => {
       address: user.address,
       phoneNumber: user.phoneNumber,
       isAdmin: user.isAdmin,
+      restricted: user.restricted,
       token: generateToken(user._id),
     });
   } else {
