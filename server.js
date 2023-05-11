@@ -9,7 +9,6 @@ import messageRouter from "./routes/messageRoutes.js";
 import conversationRouter from "./routes/conversationRoutes.js";
 import multer from "multer";
 import nodemailer from "nodemailer";
-import { Server } from "socket.io";
 import path from "path";
 import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
@@ -18,56 +17,6 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
-// https://citadelchoicebank.com
-
-// const io = new Server("3000", {
-//   cors: {
-//     origin: ["https://citadelchoicebank.com"],
-//   },
-// });
-
-// const io = new Server("3000", {
-//   cors: {
-//     origin: "https://citadelchoicebank.com",
-//     methods: ["GET, POST"],
-//   },
-// });
-
-// let users = [];
-
-// // take userId and socketId from user
-// const addUsers = (userId, socketId) => {
-// !users.some((user) => user.userId === userId) &&
-//     users.push({ userId, socketId });
-// };
-
-// const removeUser = (sockedId) => {
-//   users = users.filter((user) => user.socketId !== sockedId);
-// };
-
-// const getUser = (userId) => {
-//   return users.find((user) => user.userId === userId);
-// };
-
-// io.on("connection", (socket) => {
-//   socket.on("addUser", (userId) => {
-//     addUsers(userId, socket.id);
-//     io.emit("getUsers", users);
-//   });
-
-//   // send and get message
-//   socket.on("sendMessage", ({ senderId, receiverId, text }) => {
-//     const user = getUser(receiverId);
-//     io.to(user.socketId).emit("getMessage", { senderId, text });
-//   });
-
-//   // when disconnect
-//   socket.on("disconnect", () => {
-//     removeUser(socket.id);
-//     io.emit("getUsers", users);
-//   });
-// });
-
 dotenv.config();
 
 connectDb();
@@ -75,6 +24,20 @@ connectDb();
 const PORT = process.env.PORT || 5000;
 
 const app = express();
+
+// Enable CORS
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET,HEAD,OPTIONS,POST,PUT,DELETE"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  next();
+});
 
 app.use(cors());
 
