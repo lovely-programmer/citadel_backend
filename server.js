@@ -108,9 +108,9 @@ const sendEmail = ({ recipient_email, recipient_username, recipient_name }) => {
     transporter.sendMail(mail_configs, function (error, info) {
       if (error) {
         console.log(error);
-        return reject({ message: `An error has occured` });
+        return reject({ message: `An error has occurred` });
       }
-      return resolve({ message: "Email sent succesfuly" });
+      return resolve({ message: "Email sent successfully" });
     });
   });
 };
@@ -174,7 +174,7 @@ const sendTransactionEmail = ({
 
       <div style="marginBottom:20px; color:green;">
         <p>
-          You have successfully Transfered $${amount} from ${account_number} to ${account_name}
+          You have successfully Transferred $${amount} from ${account_number} to ${account_name}
         </p>
       </div>
 
@@ -333,9 +333,9 @@ const sendUpdateUser = ({
     transporter.sendMail(mail_configs, function (error, info) {
       if (error) {
         console.log(error);
-        return reject({ message: `An error has occured` });
+        return reject({ message: `An error has occurred` });
       }
-      return resolve({ message: "Email sent succesfuly" });
+      return resolve({ message: "Email sent successfully" });
     });
   });
 };
@@ -447,9 +447,9 @@ const loginEmail = ({
     transporter.sendMail(mail_configs, function (error, info) {
       if (error) {
         console.log(error);
-        return reject({ message: `An error has occured` });
+        return reject({ message: `An error has occurred` });
       }
-      return resolve({ message: "Email sent succesfuly" });
+      return resolve({ message: "Email sent successfully" });
     });
   });
 };
